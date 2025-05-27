@@ -34,3 +34,6 @@ def count_fivemers(file_path , gene_id):
             
 
 count_fivemers("gene.fna" ,"NC_000006.12:35342558-35428178")
+
+def bedtocsv(file_path):
+    return
