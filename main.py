@@ -1,4 +1,5 @@
 from Bio import SeqIO
+import pandas as pd
 
 def count_fivemers(file_path , gene_id):
     file_path = file_path
@@ -33,7 +34,13 @@ def count_fivemers(file_path , gene_id):
             primary_fivemers.pop(key)
             
 
-count_fivemers("gene.fna" ,"NC_000006.12:35342558-35428178")
+# count_fivemers("gene.fna" ,"NC_000006.12:35342558-35428178")
 
 def bedtocsv(file_path):
-    return
+    file_path = file_path
+    csv_file_path = file_path.replace(".bed", ".csv")
+    df = pd.read_csv(file_path, sep="\t")
+    df.to_csv(csv_file_path, index=False)
+
+
+bedtocsv("H2AZ.bed")
