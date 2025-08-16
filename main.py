@@ -1,5 +1,34 @@
-from Bio import SeqIO
+from Bio import Entrez, SeqIO
 import pandas as pd
+import time
+
+Entrez.email = "adelganeh@gmail.com"  # Use a real email
+Entrez.tool = "fetch_sequence_script"
+
+
+def fetch_sequence(row):
+    chrom = row['chr']
+    start = int(row['epigenetic_start'])
+    end = int(row['epigenetic_end'])
+    strand = 1 if row['strand'] == '+' else 2
+    accession = chrom_to_accession.get(chrom)
+
+    handle = Entrez.efetch(
+        db="nucleotide",
+        id=accession,
+        rettype="fasta",
+        retmode="text",
+        seq_start=start,
+        seq_stop=end,
+        strand=strand
+    )
+    record = SeqIO.read(handle, "fasta")
+    handle.close()
+    return str(record.seq)
+
+# Fetch sequences
+df['sequence'] = df.apply(fetch_sequence, axis=1)
+
 
 def count_fivemers(file_path , gene_id):
     file_path = file_path
